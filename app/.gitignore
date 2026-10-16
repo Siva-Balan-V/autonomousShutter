@@ -1,0 +1,28 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.iml
+.idea/
+.vscode/
+
+# Secrets
+lib/config/secrets.dart
+*.keystore
+key.properties
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/google-services.json
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+
+# macOS
+.DS_Store
