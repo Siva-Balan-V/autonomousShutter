@@ -52,3 +52,66 @@ flutter build apk --release # demo APK
 - [ ] Auth enforced (FR-9)
 - [ ] Alert on event (FR-10)
 - [ ] Demo APK built & sideloaded
+
+---
+
+## Implementation Status (source scaffolded)
+
+> Flutter SDK is required to build. The Dart source is in `app/lib/`.
+
+### Project structure
+```
+app/
+├─ pubspec.yaml                 # dependencies
+├─ analysis_options.yaml
+├─ .gitignore
+├─ lib/
+│  ├─ main.dart                 # app entry (Riverpod ProviderScope)
+│  ├─ config/
+│  │  ├─ app_config.dart        # MQTT host/topics + voice keywords
+│  │  └─ secrets.dart.example   # copy to secrets.dart (git-ignored)
+│  ├─ models/
+│  │  └─ shutter_state.dart     # state + position + canOpen/canClose/canStop
+│  ├─ services/
+│  │  ├─ voice_service.dart     # speech_to_text + command parsing
+│  │  └─ mqtt_service.dart      # MQTT over TLS, pub/sub, LWT
+│  ├─ providers/
+│  │  └─ shutter_provider.dart  # state + position-gated command logic
+│  └─ screens/
+│     └─ home_screen.dart       # UI: status, state, voice button, manual controls
+└─ test/
+   └─ shutter_state_test.dart   # unit tests for state logic
+```
+
+### Position-aware command logic (core requirement)
+Voice/listening produces a command; the provider checks current state/position before
+publishing to `shutter/<id>/cmd`:
+- `open` → only if not moving and not already open.
+- `close` → only if not moving and not already closed.
+- `stop` → only if currently moving.
+Otherwise the command is ignored with feedback.
+
+### First-time setup (Flutter SDK required)
+```bash
+cd app
+flutter create .          # generate android/ ios/ platform folders
+cp lib/config/secrets.dart.example lib/config/secrets.dart
+# edit secrets.dart with your HiveMQ host/user/pass/deviceId
+flutter pub get
+flutter run               # debug on a connected device
+flutter build apk --release
+```
+
+### Android permissions (added by `flutter create`, verify present in manifest)
+- `android.permission.RECORD_AUDIO` (voice)
+- `android.permission.INTERNET` (MQTT)
+- `android.permission.ACCESS_NETWORK_STATE`
+
+### Remaining work
+- [ ] Run `flutter create .` to generate platform scaffolding
+- [ ] Copy/fill `secrets.dart`
+- [ ] `flutter pub get` + resolve any package version bumps
+- [ ] Test voice recognition on a real device (FR-1..FR-3, NFR-2)
+- [ ] Verify MQTT TLS connect + state/position updates (FR-7, FR-8)
+- [ ] Auth gate before commands (FR-9) — currently open; add Firebase/backend login
+- [ ] Event alerts (FR-10)
