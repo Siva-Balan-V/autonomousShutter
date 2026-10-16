@@ -18,11 +18,11 @@ android/.gradle/
 android/local.properties
 android/app/google-services.json
 
-# iOS
-ios/Pods/
-ios/.symlinks/
-ios/Flutter/Flutter.framework
-ios/Flutter/Generated.xcconfig
+# Non-target platforms (Android + web only for this project)
+ios/
+macos/
+linux/
+windows/
 
 # macOS
 .DS_Store
