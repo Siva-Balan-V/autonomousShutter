@@ -7,6 +7,9 @@ Thumbs.db
 firmware/secrets.h
 *.keystore
 secrets.*
+!secrets.dart.example
+!secrets.*.example
+!.env.example
 
 # Python/Flutter/build
 __pycache__/
