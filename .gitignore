@@ -1,0 +1,23 @@
+# OS
+.~lock.*
+.DS_Store
+Thumbs.db
+
+# Secrets
+firmware/secrets.h
+*.keystore
+secrets.*
+
+# Python/Flutter/build
+__pycache__/
+build/
+*.iml
+.gradle/
+.flutter-plugins*
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+.cmake/
+
+# Node/others
+node_modules/
